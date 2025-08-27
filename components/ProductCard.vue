@@ -1,82 +1,63 @@
+<script setup>
+import { ref } from "vue";
+import DetailButton from "./DetailButton.vue";
+
+const isLoading = ref(true);
+
+const props = defineProps({
+  katalog: {
+    type: Object,
+    required: true,
+  },
+});
+
+function formatRupiah(value) {
+  if (typeof value !== "number") {
+    return value;
+  }
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+  }).format(value);
+}
+</script>
+
 <template>
   <div
     class="w-full max-w-sm rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700"
   >
-    <a :href="productUrl">
-      <img class="p-6 rounded-t-lg" :src="image_1" alt="Product Image" />
-    </a>
+    <div class="p-6 rounded-t-lg aspect-square">
+      <div
+        v-if="isLoading"
+        class="w-full h-full bg-gray-300 dark:bg-gray-700 rounded-lg animate-pulse"
+      ></div>
+      <img
+        :class="{ hidden: isLoading }"
+        class="w-full h-full object-contain"
+        :src="katalog.image_2"
+        :alt="katalog.name"
+        @load="isLoading = false"
+        @error="isLoading = false"
+      />
+    </div>
     <div class="px-5 pb-5">
-      <a :href="productUrl">
-        <h5
-          class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white text-center"
-        >
-          {{ name }}
-        </h5>
-      </a>
+      <h5
+        class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white text-center"
+      >
+        {{ katalog.name }}
+      </h5>
       <p class="text-center dark:text-white pb-4">
-        {{ edition }}
+        {{ katalog.edition }}
       </p>
       <div
-        class="flex flex-wrap items-center md:justify-between gap-2 justify-center"
+        class="flex flex-wrap items-center gap-2 justify-center"
       >
         <span class="text-xl font-bold text-gray-900 dark:text-white">{{
-          price
+          formatRupiah(katalog.price)
         }}</span>
-        <!-- Ganti tombol dengan ShopButton -->
-        <ShopButton
-          :shopeeUrl="shopeeUrl"
-          :tokopediaUrl="tokopediaUrl"
-          :lazadaUrl="lazadaUrl"
-        />
+        <DetailButton :productUrl="`/product/${katalog.id}`" />
       </div>
     </div>
   </div>
 </template>
-
-<script>
-import ShopButton from "./ShopButton.vue";
-
-export default {
-  components: {
-    ShopButton,
-  },
-  props: {
-    id: {
-      type: String,
-      required: true,
-    },
-    image_1: {
-      type: String,
-      required: true,
-    },
-    image_2: {
-      type: String,
-      required: true,
-    },
-    edition: {
-      type: String,
-      required: true,
-    },
-    name: {
-      type: String,
-      required: true,
-    },
-    price: {
-      type: String,
-      required: true,
-    },
-    shopeeUrl: {
-      type: String,
-      required: true,
-    },
-    tokopediaUrl: {
-      type: String,
-      required: true,
-    },
-    lazadaUrl: {
-      type: String,
-      required: true,
-    },
-  },
-};
-</script>

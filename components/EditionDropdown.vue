@@ -1,3 +1,29 @@
+<script setup>
+const props = defineProps({
+  editions: {
+    type: Array,
+    required: true,
+  },
+  selectedEditions: {
+    type: Array,
+    required: true,
+  },
+});
+
+const emit = defineEmits(["update:selectedEditions"]);
+
+function toggleEdition(edition) {
+  const newSelectedEditions = [...props.selectedEditions];
+  const index = newSelectedEditions.indexOf(edition);
+  if (index > -1) {
+    newSelectedEditions.splice(index, 1);
+  } else {
+    newSelectedEditions.push(edition);
+  }
+  emit("update:selectedEditions", newSelectedEditions);
+}
+</script>
+
 <template>
   <div class="relative">
     <button
@@ -55,29 +81,3 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    editions: {
-      type: Array,
-      required: true,
-    },
-    selectedEditions: {
-      type: Array,
-      required: true,
-    },
-  },
-  methods: {
-    toggleEdition(edition) {
-      const index = this.selectedEditions.indexOf(edition);
-      if (index > -1) {
-        this.selectedEditions.splice(index, 1);
-      } else {
-        this.selectedEditions.push(edition);
-      }
-      this.$emit("update:selectedEditions", this.selectedEditions);
-    },
-  },
-};
-</script>

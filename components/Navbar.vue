@@ -1,3 +1,13 @@
+<script>
+export default {
+  data() {
+    return {
+      storeAccordionOpen: false,
+    };
+  },
+};
+</script>
+
 <template>
   <nav
     class="fixed top-0 left-0 right-0 bg-white border-gray-200 dark:bg-gray-900 z-50"
@@ -78,21 +88,21 @@
                 >
                   <li>
                     <a
-                      href="#"
+                      href="https://shopee.co.id/"
                       class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600"
                       >Shopee</a
                     >
                   </li>
                   <li>
                     <a
-                      href="#"
+                      href="https://www.tokopedia.com/"
                       class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600"
                       >Tokopedia</a
                     >
                   </li>
                   <li>
                     <a
-                      href="#"
+                      href="https://www.lazada.co.id/"
                       class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600"
                       >Lazada</a
                     >
@@ -109,7 +119,7 @@
                 Store
                 <svg
                   class="w-2.5 h-2.5 ms-2.5 transition-transform"
-                  :class="{'rotate-180': storeAccordionOpen}"
+                  :class="{ 'rotate-180': storeAccordionOpen }"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -177,13 +187,3 @@
     </div>
   </nav>
 </template>
-
-<script>
-export default {
-  data() {
-    return {
-      storeAccordionOpen: false,
-    };
-  },
-};
-</script>

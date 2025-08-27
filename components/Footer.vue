@@ -1,3 +1,13 @@
+<script>
+export default {
+  computed: {
+    currentYear() {
+      return new Date().getFullYear();
+    },
+  },
+};
+</script>
+
 <template>
   <footer class="bg-white dark:bg-gray-900">
     <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
@@ -18,7 +28,8 @@
           <p class="text-gray-900 dark:text-white my-2 text-justify">
             MyCloth adalah toko baju modern yang menyediakan koleksi pakaian
             stylish dan berkualitas tinggi untuk pria dan wanita. Kami fokus
-            pada tren terkini dan bahan nyaman. Temukan gaya unik Anda bersama kami!
+            pada tren terkini dan bahan nyaman. Temukan gaya unik Anda bersama
+            kami!
           </p>
         </div>
         <div class="grid grid-cols-3 gap-6 sm:gap-2 sm:grid-cols-3">
@@ -155,13 +166,3 @@
     </div>
   </footer>
 </template>
-
-<script>
-export default {
-  computed: {
-    currentYear() {
-      return new Date().getFullYear();
-    },
-  },
-};
-</script>

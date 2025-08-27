@@ -1,3 +1,22 @@
+<script>
+export default {
+  props: {
+    searchQuery: {
+      type: String,
+      required: true,
+    },
+  },
+  methods: {
+    onInput(event) {
+      this.$emit("update:searchQuery", event.target.value);
+    },
+    onSearch() {
+      this.$emit("search", this.searchQuery);
+    },
+  },
+};
+</script>
+
 <template>
   <form class="w-1/3 flex items-center" @submit.prevent="onSearch">
     <label
@@ -37,22 +56,3 @@
     </div>
   </form>
 </template>
-
-<script>
-export default {
-  props: {
-    searchQuery: {
-      type: String,
-      required: true,
-    },
-  },
-  methods: {
-    onInput(event) {
-      this.$emit("update:searchQuery", event.target.value);
-    },
-    onSearch() {
-      this.$emit("search", this.searchQuery);
-    },
-  },
-};
-</script>

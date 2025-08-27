@@ -1,3 +1,14 @@
+<script>
+export default {
+  props: {
+    items: {
+      type: Array,
+      required: true,
+    },
+  },
+};
+</script>
+
 <template>
   <nav class="flex" aria-label="Breadcrumb">
     <ol
@@ -53,14 +64,3 @@
     </ol>
   </nav>
 </template>
-
-<script>
-export default {
-  props: {
-    items: {
-      type: Array,
-      required: true,
-    },
-  },
-};
-</script>

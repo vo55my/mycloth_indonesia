@@ -1,94 +1,60 @@
-<template>
-  <div class="relative">
-    <button
-      @click="toggleDropdown"
-      id="dropdownDefaultButton"
-      class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
-      type="button"
-    >
-      Shop now
-      <svg
-        class="w-2.5 h-2.5 ms-3"
-        aria-hidden="true"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 10 6"
-      >
-        <path
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="m1 1 4 4 4-4"
-        />
-      </svg>
-    </button>
+<script setup>
+defineProps({
+  shopeeUrl: {
+    type: String,
+    required: true,
+  },
+  tokopediaUrl: {
+    type: String,
+    required: true,
+  },
+  lazadaUrl: {
+    type: String,
+    required: true,
+  },
+});
+</script>
 
-    <!-- Dropdown menu -->
-    <div
-      v-show="dropdownOpen"
-      id="dropdown"
-      class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-30 dark:bg-gray-700 absolute mt-2"
+<template>
+  <div class="flex flex-wrap gap-4">
+    <!-- Shopee Button -->
+    <a
+      :href="shopeeUrl"
+      target="_blank"
+      class="text-white bg-orange-500 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800"
     >
-      <ul
-        class="py-2 text-sm text-gray-700 dark:text-gray-200"
-        aria-labelledby="dropdownDefaultButton"
-      >
-        <li>
-          <a
-            :href="shopeeUrl"
-            target="_blank"
-            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-            >Shopee</a
-          >
-        </li>
-        <li>
-          <a
-            :href="tokopediaUrl"
-            target="_blank"
-            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-            >Tokopedia</a
-          >
-        </li>
-        <li>
-          <a
-            :href="lazadaUrl"
-            target="_blank"
-            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-            >Lazada</a
-          >
-        </li>
-      </ul>
-    </div>
+      <img
+        src="/images/Toko/Shopee.png"
+        alt="Shopee"
+        class="w-5 h-5 me-2 -ms-1"
+      />
+      Shopee
+    </a>
+    <!-- Tokopedia Button -->
+    <a
+      :href="tokopediaUrl"
+      target="_blank"
+      class="text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+    >
+      <img
+        src="/images/Toko/Tokopedia.png"
+        alt="Tokopedia"
+        class="w-5 h-5 me-2 -ms-1"
+      />
+      Tokopedia
+    </a>
+    <!-- Lazada Button -->
+    <a
+      :href="lazadaUrl"
+      target="_blank"
+      class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+    >
+      <img
+        src="/images/Toko/Lazada.png"
+        alt="Lazada"
+        class="w-5 h-5 me-2 -ms-1"
+      />
+      Lazada
+    </a>
   </div>
 </template>
-
-<script>
-export default {
-  name: "ShopButton",
-  props: {
-    shopeeUrl: {
-      type: String,
-      required: true,
-    },
-    tokopediaUrl: {
-      type: String,
-      required: true,
-    },
-    lazadaUrl: {
-      type: String,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      dropdownOpen: false,
-    };
-  },
-  methods: {
-    toggleDropdown() {
-      this.dropdownOpen = !this.dropdownOpen;
-    },
-  },
-};
-</script>
