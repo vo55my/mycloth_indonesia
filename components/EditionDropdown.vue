@@ -13,13 +13,11 @@ const props = defineProps({
 const emit = defineEmits(["update:selectedEditions"]);
 
 function toggleEdition(edition) {
-  const newSelectedEditions = [...props.selectedEditions];
-  const index = newSelectedEditions.indexOf(edition);
-  if (index > -1) {
-    newSelectedEditions.splice(index, 1);
-  } else {
-    newSelectedEditions.push(edition);
-  }
+  const isSelected = props.selectedEditions.includes(edition);
+  const newSelectedEditions = isSelected
+    ? props.selectedEditions.filter((e) => e !== edition)
+    : [...props.selectedEditions, edition];
+
   emit("update:selectedEditions", newSelectedEditions);
 }
 </script>
@@ -49,20 +47,21 @@ function toggleEdition(edition) {
         />
       </svg>
     </button>
+
     <div
       id="dropdownSearch"
-      class="z-10 hidden bg-white rounded-lg shadow-sm w-45 dark:bg-gray-700"
+      class="z-10 hidden bg-white rounded-lg shadow-sm w-[180px] dark:bg-gray-700"
     >
       <ul
-        class="h-50 py-2 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
+        class="max-h-50 py-2 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
         aria-labelledby="dropdownSearchButton"
       >
-        <li v-for="edition in editions" :key="edition">
+        <li v-for="(edition, index) in editions" :key="edition + '-' + index">
           <div
             class="flex items-center p-2 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-600"
           >
             <input
-              :id="'checkbox-item-' + edition"
+              :id="`checkbox-item-${edition}-${index}`"
               type="checkbox"
               :value="edition"
               :checked="selectedEditions.includes(edition)"
@@ -70,7 +69,7 @@ function toggleEdition(edition) {
               class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
             />
             <label
-              :for="'checkbox-item-' + edition"
+              :for="`checkbox-item-${edition}-${index}`"
               class="w-full ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
               {{ edition }}

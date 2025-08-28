@@ -13,6 +13,7 @@
           src="/images/Slide/White.png"
           class="absolute block w-full h-full object-cover"
           alt="Slide 2"
+          loading="lazy"
         />
       </div>
       <div class="hidden duration-700 ease-in-out" data-carousel-item>
@@ -20,9 +21,11 @@
           src="/images/Slide/Parallax.png"
           class="absolute block w-full h-full object-cover"
           alt="Slide 3"
+          loading="lazy"
         />
       </div>
     </div>
+
     <div
       class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse"
     >
@@ -40,7 +43,15 @@
         aria-label="Slide 2"
         data-carousel-slide-to="1"
       ></button>
+      <button
+        type="button"
+        class="w-3 h-3 rounded-full"
+        aria-current="false"
+        aria-label="Slide 3"
+        data-carousel-slide-to="2"
+      ></button>
     </div>
+
     <button
       type="button"
       class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
@@ -67,6 +78,7 @@
         <span class="sr-only">Previous</span>
       </span>
     </button>
+
     <button
       type="button"
       class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
@@ -81,8 +93,6 @@
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 6 10"
-          width="24"
-          height="24"
         >
           <path
             stroke="currentColor"

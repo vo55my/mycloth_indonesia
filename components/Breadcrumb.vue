@@ -10,13 +10,13 @@ export default {
 </script>
 
 <template>
-  <nav class="flex" aria-label="Breadcrumb">
+  <nav class="flex" aria-label="breadcrumb">
     <ol
       class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse"
     >
       <li
         v-for="(item, index) in items"
-        :key="index"
+        :key="item.id || item.name"
         class="inline-flex items-center"
       >
         <a
@@ -38,12 +38,15 @@ export default {
           </svg>
           {{ item.name }}
         </a>
+
         <span
           v-else
           class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400"
+          aria-current="page"
         >
           {{ item.name }}
         </span>
+
         <svg
           v-if="index < items.length - 1"
           class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1"

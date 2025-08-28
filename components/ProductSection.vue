@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import ShopButton from "./ShopButton.vue";
 
 const props = defineProps({
@@ -25,7 +25,13 @@ const images = computed(() => {
   return imgs;
 });
 
-const activeImage = ref(images.value[0] || "");
+const activeImage = ref(images.value[0] || "/fallback.jpg");
+
+watch(images, (newImages) => {
+  if (newImages.length) {
+    activeImage.value = newImages[0];
+  }
+});
 </script>
 
 <template>
@@ -40,7 +46,9 @@ const activeImage = ref(images.value[0] || "");
             class="w-80 rounded-2xl transition-transform duration-300 hover:scale-105"
             :src="activeImage"
             :alt="product.name"
+            @error="activeImage = '/fallback.jpg'"
           />
+
           <div
             v-if="images.length > 1"
             class="flex gap-3 mt-5 justify-center lg:justify-start"
@@ -49,21 +57,23 @@ const activeImage = ref(images.value[0] || "");
               v-for="image in images"
               :key="image"
               @click="activeImage = image"
-              class="w-20 h-20 rounded-lg overflow-hidden border-2 transition-all duration-200 hover:border-red-500"
+              class="w-20 h-20 rounded-lg overflow-hidden border-2 transition-all duration-200"
               :class="{
-                'border-gray-100 dark:border-gray-200':
+                'border-primary-600 dark:border-primary-400':
                   activeImage === image,
-                'border-primary-600 dark:border-primary-400': activeImage !== image,
+                'border-gray-200 dark:border-gray-600': activeImage !== image,
               }"
             >
               <img
                 :src="image"
                 :alt="`${product.name} thumbnail`"
                 class="h-full w-full object-cover"
+                @error="$event.target.src = '/fallback-thumb.jpg'"
               />
             </button>
           </div>
         </div>
+
         <div class="mt-8 lg:mt-0 space-y-6">
           <h1
             class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl dark:text-white"
@@ -103,6 +113,7 @@ const activeImage = ref(images.value[0] || "");
               {{ product.color }}
             </p>
           </div>
+
           <ShopButton
             class="mt-4 w-full sm:w-auto"
             shopeeUrl="https://shopee.co.id/"

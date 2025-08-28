@@ -12,14 +12,13 @@ const props = defineProps({
 });
 
 function formatRupiah(value) {
-  if (typeof value !== "number") {
-    return value;
-  }
+  const number = Number(value);
+  if (isNaN(number)) return value;
   return new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
     minimumFractionDigits: 0,
-  }).format(value);
+  }).format(number);
 }
 </script>
 
@@ -33,12 +32,18 @@ function formatRupiah(value) {
         class="w-full h-full bg-gray-300 dark:bg-gray-700 rounded-lg animate-pulse"
       ></div>
       <img
-        :class="{ hidden: isLoading }"
+        v-show="!isLoading"
         class="w-full h-full object-contain"
-        :src="katalog.image_2"
-        :alt="katalog.name"
+        :src="katalog.image_2 || '/fallback.jpg'"
+        :alt="katalog.name || 'Produk MyCloth'"
+        loading="lazy"
         @load="isLoading = false"
-        @error="isLoading = false"
+        @error="
+          (e) => {
+            e.target.src = '/fallback.jpg';
+            isLoading = false;
+          }
+        "
       />
     </div>
     <div class="px-5 pb-5">
@@ -50,13 +55,14 @@ function formatRupiah(value) {
       <p class="text-center dark:text-white pb-4">
         {{ katalog.edition }}
       </p>
-      <div
-        class="flex flex-wrap items-center gap-2 justify-center"
-      >
-        <span class="text-xl font-bold text-gray-900 dark:text-white">{{
-          formatRupiah(katalog.price)
-        }}</span>
-        <DetailButton :productUrl="`/product/${katalog.id}`" />
+      <div class="flex flex-wrap items-center gap-2 justify-center">
+        <span class="text-xl font-bold text-gray-900 dark:text-white">
+          {{ formatRupiah(katalog.price) }}
+        </span>
+        <DetailButton
+          :productUrl="`/product/${katalog.id}`"
+          aria-label="Lihat detail produk {{ katalog.name }}"
+        />
       </div>
     </div>
   </div>

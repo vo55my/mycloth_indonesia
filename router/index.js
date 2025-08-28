@@ -1,8 +1,5 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "../pages/index.vue";
-import Shop from "../pages/shop.vue";
-import Product from "../pages/product/_id.vue";
 
 Vue.use(Router);
 
@@ -12,17 +9,18 @@ export default new Router({
     {
       path: "/",
       name: "Home",
-      component: Home,
+      component: () => import("../pages/index.vue"),
     },
     {
       path: "/shop",
       name: "Shop",
-      component: Shop,
+      component: () => import("../pages/shop.vue"),
     },
     {
       path: "/product/:id",
       name: "Product",
-      component: Product,
+      component: () => import("../pages/product/_id.vue"),
+      props: true,
     },
   ],
 });

@@ -69,8 +69,9 @@ onMounted(() => {
           >
             <a href="/shop">
               <img
+                v-if="editions.length"
                 class="blur-xs duration-300 hover:blur-none rounded-lg transition-all"
-                :src="editions[0]?.image"
+                :src="editions[0].image"
                 alt="All Editions"
               />
             </a>

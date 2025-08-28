@@ -53,7 +53,6 @@ export default {
             >
           </li>
           <li>
-            <!-- Desktop Dropdown -->
             <div class="hidden md:block">
               <button
                 id="dropdownNavbarLink"
@@ -77,7 +76,6 @@ export default {
                   />
                 </svg>
               </button>
-              <!-- Dropdown menu -->
               <div
                 id="dropdownNavbar"
                 class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-25 dark:bg-gray-700 dark:divide-gray-600"
@@ -110,7 +108,6 @@ export default {
                 </ul>
               </div>
             </div>
-            <!-- Mobile Accordion -->
             <div class="md:hidden">
               <button
                 @click="storeAccordionOpen = !storeAccordionOpen"
@@ -138,21 +135,21 @@ export default {
                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-400">
                   <li>
                     <a
-                      href="#"
+                      href="https://shopee.co.id/"
                       class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600"
                       >Shopee</a
                     >
                   </li>
                   <li>
                     <a
-                      href="#"
+                      href="https://www.tokopedia.com/"
                       class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600"
                       >Tokopedia</a
                     >
                   </li>
                   <li>
                     <a
-                      href="#"
+                      href="https://www.lazada.co.id/"
                       class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600"
                       >Lazada</a
                     >
