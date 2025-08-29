@@ -9,13 +9,14 @@ const props = defineProps({
   },
 });
 
-const formatPrice = (price) => {
-  if (!price) return "";
+const formatCurrency = (value) => {
+  const number = Number(value);
+  if (isNaN(number)) return "";
   return new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
     minimumFractionDigits: 0,
-  }).format(price);
+  }).format(number);
 };
 
 const images = computed(() => {
@@ -84,7 +85,7 @@ watch(images, (newImages) => {
           <p
             class="text-3xl font-extrabold text-primary-600 sm:text-4xl dark:text-white"
           >
-            {{ formatPrice(product.price) }}
+            {{ formatCurrency(product.price) }}
           </p>
 
           <div class="grid grid-cols-1 gap-3 text-gray-600 dark:text-gray-300">

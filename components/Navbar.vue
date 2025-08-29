@@ -5,6 +5,15 @@ export default {
       storeAccordionOpen: false,
     };
   },
+  methods: {
+    handleSmoothScroll(event, targetId) {
+      event.preventDefault();
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: "smooth" });
+      }
+    },
+  },
 };
 </script>
 
@@ -161,6 +170,7 @@ export default {
           <li>
             <a
               href="#edition"
+              @click.prevent="handleSmoothScroll($event, '#edition')"
               class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-red-900 md:p-0 dark:text-white md:dark:hover:text-red-900 dark:hover:bg-gray-700 dark:hover:text-red-900 md:dark:hover:bg-transparent"
               >Edition</a
             >
@@ -168,6 +178,7 @@ export default {
           <li>
             <a
               href="#catalog"
+              @click.prevent="handleSmoothScroll($event, '#catalog')"
               class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-red-900 md:p-0 dark:text-white md:dark:hover:text-red-900 dark:hover:bg-gray-700 dark:hover:text-red-900 md:dark:hover:bg-transparent"
               >Catalog</a
             >

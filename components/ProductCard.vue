@@ -11,7 +11,7 @@ const props = defineProps({
   },
 });
 
-function formatRupiah(value) {
+const formatCurrency = (value) => {
   const number = Number(value);
   if (isNaN(number)) return value;
   return new Intl.NumberFormat("id-ID", {
@@ -19,7 +19,7 @@ function formatRupiah(value) {
     currency: "IDR",
     minimumFractionDigits: 0,
   }).format(number);
-}
+};
 </script>
 
 <template>
@@ -57,7 +57,7 @@ function formatRupiah(value) {
       </p>
       <div class="flex flex-wrap items-center gap-2 justify-center">
         <span class="text-xl font-bold text-gray-900 dark:text-white">
-          {{ formatRupiah(katalog.price) }}
+          {{ formatCurrency(katalog.price) }}
         </span>
         <DetailButton
           :productUrl="`/product/${katalog.id}`"
