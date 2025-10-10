@@ -1,4 +1,7 @@
 <script setup>
+import { Icon } from "@iconify/vue";
+import { ref } from "vue";
+
 const props = defineProps({
   editions: {
     type: Array,
@@ -11,6 +14,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["update:selectedEditions"]);
+const isDropdownOpen = ref(false);
 
 function toggleEdition(edition) {
   const isSelected = props.selectedEditions.includes(edition);
@@ -20,63 +24,142 @@ function toggleEdition(edition) {
 
   emit("update:selectedEditions", newSelectedEditions);
 }
+
+function toggleDropdown() {
+  isDropdownOpen.value = !isDropdownOpen.value;
+}
+
+// Close dropdown when clicking outside
+function handleClickOutside(event) {
+  if (!event.target.closest(".dropdown-container")) {
+    isDropdownOpen.value = false;
+  }
+}
+
+// Add event listener for click outside
+import { onMounted, onUnmounted } from "vue";
+
+onMounted(() => {
+  document.addEventListener("click", handleClickOutside);
+});
+
+onUnmounted(() => {
+  document.removeEventListener("click", handleClickOutside);
+});
 </script>
 
 <template>
-  <div class="relative">
+  <div class="relative dropdown-container">
+    <!-- Dropdown Button -->
     <button
-      id="dropdownSearchButton"
-      data-dropdown-toggle="dropdownSearch"
-      class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+      @click="toggleDropdown"
+      class="inline-flex items-center px-4 py-2 text-sm font-semibold bg-[#FD0054] text-[#FBF9FA] rounded-lg hover:bg-[#A80038] focus:outline-none focus:ring-2 focus:ring-[#FD0054] focus:ring-opacity-50 transition-all duration-200 shadow-sm hover:shadow-md"
       type="button"
     >
       Edition
-      <svg
-        class="w-2.5 h-2.5 ms-2.5"
-        aria-hidden="true"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 10 6"
-      >
-        <path
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="m1 1 4 4 4-4"
-        />
-      </svg>
+      <span class="ml-2">{{
+        selectedEditions.length > 0 ? `(${selectedEditions.length})` : ""
+      }}</span>
+      <Icon
+        icon="mdi:chevron-down"
+        class="w-4 h-4 ml-2 transition-transform duration-200"
+        :class="{ 'rotate-180': isDropdownOpen }"
+      />
     </button>
 
+    <!-- Dropdown Menu -->
     <div
-      id="dropdownSearch"
-      class="z-10 hidden bg-white rounded-lg shadow-sm w-[180px] dark:bg-gray-700"
+      v-show="isDropdownOpen"
+      class="absolute top-full left-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-[#2B2024]/10 py-2 z-50 animate-fade-in max-h-60 overflow-y-auto"
     >
-      <ul
-        class="max-h-50 py-2 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
-        aria-labelledby="dropdownSearchButton"
-      >
+      <!-- Selected Count -->
+      <div class="px-4 py-2 border-b border-[#2B2024]/10">
+        <p class="text-sm text-[#2B2024]/70">
+          {{ selectedEditions.length }} selected
+        </p>
+      </div>
+
+      <!-- Edition List -->
+      <ul class="py-2">
         <li v-for="(edition, index) in editions" :key="edition + '-' + index">
           <div
-            class="flex items-center p-2 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-600"
+            class="flex items-center px-4 py-2 hover:bg-[#2B2024]/5 transition-colors duration-150 cursor-pointer group"
+            @click="toggleEdition(edition)"
           >
-            <input
-              :id="`checkbox-item-${edition}-${index}`"
-              type="checkbox"
-              :value="edition"
-              :checked="selectedEditions.includes(edition)"
-              @change="toggleEdition(edition)"
-              class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-            />
+            <!-- Custom Checkbox -->
+            <div
+              class="w-4 h-4 border-2 rounded-sm flex items-center justify-center mr-3 transition-all duration-200"
+              :class="[
+                selectedEditions.includes(edition)
+                  ? 'bg-[#FD0054] border-[#FD0054]'
+                  : 'border-[#2B2024]/30 group-hover:border-[#FD0054]',
+              ]"
+            >
+              <Icon
+                v-if="selectedEditions.includes(edition)"
+                icon="mdi:check"
+                class="w-3 h-3 text-white"
+              />
+            </div>
+
+            <!-- Edition Label -->
             <label
-              :for="`checkbox-item-${edition}-${index}`"
-              class="w-full ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+              class="flex-1 text-sm font-medium text-[#2B2024] cursor-pointer select-none group-hover:text-[#FD0054] transition-colors"
             >
               {{ edition }}
             </label>
           </div>
         </li>
       </ul>
+
+      <!-- Clear All Button -->
+      <div
+        v-if="selectedEditions.length > 0"
+        class="px-4 py-2 border-t border-[#2B2024]/10"
+      >
+        <button
+          @click="emit('update:selectedEditions', [])"
+          class="w-full text-sm text-[#FD0054] hover:text-[#A80038] font-medium transition-colors duration-200 text-center py-1"
+        >
+          Clear All
+        </button>
+      </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom scrollbar */
+.max-h-60::-webkit-scrollbar {
+  width: 4px;
+}
+
+.max-h-60::-webkit-scrollbar-track {
+  background: #fbf9fa;
+  border-radius: 2px;
+}
+
+.max-h-60::-webkit-scrollbar-thumb {
+  background: #fd0054;
+  border-radius: 2px;
+}
+
+.max-h-60::-webkit-scrollbar-thumb:hover {
+  background: #a80038;
+}
+</style>

@@ -1,58 +1,76 @@
-<script>
-export default {
-  props: {
-    searchQuery: {
-      type: String,
-      required: true,
-    },
+<script setup>
+import { Icon } from "@iconify/vue";
+
+const props = defineProps({
+  searchQuery: {
+    type: String,
+    required: true,
   },
-  methods: {
-    onInput(event) {
-      this.$emit("update:searchQuery", event.target.value);
-    },
-    onSearch() {
-      this.$emit("search", this.searchQuery);
-    },
-  },
+});
+
+const emit = defineEmits(["update:searchQuery", "search"]);
+
+const onInput = (event) => {
+  emit("update:searchQuery", event.target.value);
+};
+
+const onSearch = () => {
+  emit("search", props.searchQuery);
 };
 </script>
 
 <template>
-  <form class="w-1/3 flex items-center" @submit.prevent="onSearch">
-    <label
-      for="default-search"
-      class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-      >Search</label
-    >
-    <div class="relative flex-grow">
+  <form class="w-full max-w-md" @submit.prevent="onSearch">
+    <label for="search-input" class="sr-only"> Search products </label>
+    <div class="relative">
+      <!-- Search Icon -->
       <div
         class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
       >
-        <svg
-          class="w-4 h-4 text-gray-500 dark:text-gray-400"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 20 20"
-        >
-          <path
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-          />
-        </svg>
+        <Icon icon="mdi:magnify" class="w-5 h-5 text-[#2B2024]/60" />
       </div>
+
+      <!-- Search Input -->
       <input
         type="search"
-        id="default-search"
+        id="search-input"
         :value="searchQuery"
         @input="onInput"
-        class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500"
-        placeholder="Search"
+        class="block w-full pl-10 pr-4 py-3 text-[#2B2024] bg-[#FBF9FA] border border-[#2B2024]/20 rounded-xl placeholder-[#2B2024]/60 focus:outline-none focus:ring-2 focus:ring-[#FD0054] focus:border-[#FD0054] transition-all duration-200"
+        placeholder="Search products..."
         required
       />
+
+      <!-- Clear Button (when there's text) -->
+      <button
+        v-if="searchQuery"
+        type="button"
+        @click="$emit('update:searchQuery', '')"
+        class="absolute inset-y-0 right-0 flex items-center pr-3 text-[#2B2024]/40 hover:text-[#FD0054] transition-colors duration-200"
+        aria-label="Clear search"
+      >
+        <Icon icon="mdi:close-circle" class="w-5 h-5" />
+      </button>
     </div>
+
+    <!-- Search Button (optional - for mobile or additional emphasis) -->
+    <button
+      type="submit"
+      class="mt-2 w-full bg-[#FD0054] text-[#FBF9FA] py-3 rounded-xl font-semibold hover:bg-[#A80038] transition-colors duration-200 shadow-sm hover:shadow-md md:hidden"
+    >
+      Search
+    </button>
   </form>
 </template>
+
+<style scoped>
+/* Custom focus styles */
+input:focus {
+  box-shadow: 0 0 0 3px rgba(253, 0, 84, 0.1);
+}
+
+/* Smooth transitions */
+input {
+  transition: all 0.2s ease-in-out;
+}
+</style>

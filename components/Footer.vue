@@ -1,156 +1,229 @@
 <script setup>
+import { Icon } from "@iconify/vue";
+
 const currentYear = new Date().getFullYear();
+
+const quickLinks = [
+  { name: "Tentang Kami", href: "#about" },
+  { name: "Katalog Produk", href: "/shop" },
+  { name: "Edisi Terbaru", href: "#new-arrivals" },
+  { name: "Size Guide", href: "#size-guide" },
+  { name: "Cara Order", href: "#how-to-order" },
+];
+
+const customerService = [
+  { name: "Kebijakan Pengembalian", href: "#return-policy" },
+  { name: "Pengiriman", href: "#shipping" },
+  { name: "FAQ", href: "#faq" },
+  { name: "Contact Us", href: "#contact" },
+  { name: "Track Order", href: "#track-order" },
+];
+
+const storeLinks = [
+  {
+    name: "Shopee",
+    href: "https://shopee.co.id/",
+    icon: "arcticons:shopee",
+    color: "text-[#FD0054]",
+  },
+  {
+    name: "Tokopedia",
+    href: "https://www.tokopedia.com/",
+    icon: "arcticons:tokopedia",
+    color: "text-[#FD0054]",
+  },
+  {
+    name: "Lazada",
+    href: "https://www.lazada.co.id/",
+    icon: "arcticons:lazada",
+    color: "text-[#FD0054]",
+  },
+];
+
+const socialLinks = [
+  {
+    name: "Instagram",
+    href: "#",
+    icon: "mdi:instagram",
+    color: "text-[#FD0054]",
+  },
+  {
+    name: "TikTok",
+    href: "#",
+    icon: "ic:baseline-tiktok",
+    color: "text-[#FD0054]",
+  },
+  {
+    name: "Twitter",
+    href: "#",
+    icon: "mdi:twitter",
+    color: "text-[#FD0054]",
+  },
+];
 </script>
 
 <template>
-  <footer class="bg-white dark:bg-gray-900">
-    <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
-      <div class="md:flex md:justify-between">
-        <div class="mb-6 md:mb-0 md:w-80">
-          <RouterLink to="/" class="flex items-center">
-            <img
-              src="/images/Slide/Logo.png"
-              class="h-8 me-3"
-              alt="MyCloth Logo"
-            />
-            <span
-              class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
-            >
-              MyCloth
+  <footer class="bg-[#FBF9FA] border-t border-[#2B2024]/10">
+    <!-- Main Footer Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Brand Section -->
+        <div class="lg:col-span-1">
+          <div class="flex items-center space-x-3 mb-4">
+            <img src="/images/Slide/Logo.png" class="h-10" alt="MyCloth Logo" />
+            <span class="text-2xl font-bold text-[#2B2024]">
+              MyCloth Indonesia
             </span>
-          </RouterLink>
-          <hr class="w-full h-1 bg-gray-100 border-0 dark:bg-gray-700 mt-2" />
-          <p class="text-gray-900 dark:text-white my-2 text-justify">
+          </div>
+          <p class="text-[#2B2024]/80 mb-6 leading-relaxed">
             MyCloth adalah toko baju modern yang menyediakan koleksi pakaian
-            stylish dan berkualitas tinggi.
+            stylish dan berkualitas tinggi dengan desain eksklusif edisi
+            terbatas.
           </p>
+
+          <!-- Contact Info -->
+          <div class="space-y-3">
+            <div class="flex items-center space-x-3 text-[#2B2024]/80">
+              <Icon icon="mdi:map-marker" class="w-5 h-5 text-[#FD0054]" />
+              <span class="text-sm">Jakarta, Indonesia</span>
+            </div>
+            <div class="flex items-center space-x-3 text-[#2B2024]/80">
+              <Icon icon="mdi:phone" class="w-5 h-5 text-[#FD0054]" />
+              <span class="text-sm">+62 812 3456 789</span>
+            </div>
+            <div class="flex items-center space-x-3 text-[#2B2024]/80">
+              <Icon icon="mdi:email" class="w-5 h-5 text-[#FD0054]" />
+              <span class="text-sm">cs@mycloth.id</span>
+            </div>
+          </div>
         </div>
 
-        <div class="grid gap-6 grid-cols-3">
-          <div>
-            <h2
-              class="text-sm font-semibold text-gray-900 uppercase dark:text-white"
-            >
-              Services
-            </h2>
-            <hr class="w-full h-1 bg-gray-100 border-0 dark:bg-gray-700 my-2" />
-            <p class="text-gray-500 dark:text-gray-400 font-medium">
-              Mon - Fri <br />
-              08.00 - 17.00
-            </p>
-          </div>
+        <!-- Quick Links -->
+        <div>
+          <h3 class="text-lg font-semibold text-[#2B2024] mb-6">Quick Links</h3>
+          <ul class="space-y-3">
+            <li v-for="link in quickLinks" :key="link.name">
+              <a
+                :href="link.href"
+                class="text-[#2B2024]/80 hover:text-[#FD0054] transition-colors duration-200 text-sm flex items-center space-x-2"
+              >
+                <Icon icon="mdi:chevron-right" class="w-4 h-4 text-[#FD0054]" />
+                <span>{{ link.name }}</span>
+              </a>
+            </li>
+          </ul>
+        </div>
 
+        <!-- Customer Service -->
+        <div>
+          <h3 class="text-lg font-semibold text-[#2B2024] mb-6">
+            Customer Service
+          </h3>
+          <ul class="space-y-3">
+            <li v-for="service in customerService" :key="service.name">
+              <a
+                :href="service.href"
+                class="text-[#2B2024]/80 hover:text-[#FD0054] transition-colors duration-200 text-sm flex items-center space-x-2"
+              >
+                <Icon icon="mdi:chevron-right" class="w-4 h-4 text-[#FD0054]" />
+                <span>{{ service.name }}</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Store & Social Media -->
+        <div class="space-y-8">
+          <!-- Official Stores -->
           <div>
-            <h2
-              class="text-sm font-semibold text-gray-900 uppercase dark:text-white"
-            >
-              Contact Us
-            </h2>
-            <hr class="w-full h-1 bg-gray-100 border-0 dark:bg-gray-700 my-2" />
-            <div class="flex space-x-4">
-              <a href="mailto:cs@mycloth.id" aria-label="Email"
-                ><svg
-                  class="w-6 h-6 text-gray-800 dark:text-white hover:text-red-900"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
+            <h3 class="text-lg font-semibold text-[#2B2024] mb-6">
+              Beli di Official Store
+            </h3>
+            <div class="space-y-3">
+              <a
+                v-for="store in storeLinks"
+                :key="store.name"
+                :href="store.href"
+                target="_blank"
+                class="flex items-center space-x-3 p-3 bg-white rounded-lg border border-[#2B2024]/10 hover:border-[#FD0054] hover:shadow-sm transition-all duration-200 group"
+              >
+                <Icon :icon="store.icon" class="w-6 h-6" :class="store.color" />
+                <span
+                  class="text-[#2B2024] group-hover:text-[#FD0054] font-medium text-sm"
                 >
-                  <path
-                    d="M17 6h-2V5h1a1 1 0 1 0 0-2h-2a1 1 0 0 0-1 1v2h-.541A5.965 5.965 0 0 1 14 10v4a1 1 0 1 1-2 0v-4c0-2.206-1.794-4-4-4-.075 0-.148.012-.22.028C7.686 6.022 7.596 6 7.5 6A4.505 4.505 0 0 0 3 10.5V16a1 1 0 0 0 1 1h7v3a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-3h5a1 1 0 0 0 1-1v-6c0-2.206-1.794-4-4-4Zm-9 8.5H7a1 1 0 1 1 0-2h1a1 1 0 1 1 0 2Z"
-                  /></svg
-              ></a>
-              <a href="tel:+628123456789" aria-label="Telepon"
-                ><svg
-                  class="w-6 h-6 text-gray-800 dark:text-white hover:text-red-900"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M7.978 4a2.553 2.553 0 0 0-1.926.877C4.233 6.7 3.699 8.751 4.153 10.814c.44 1.995 1.778 3.893 3.456 5.572 1.68 1.679 3.577 3.018 5.57 3.459 2.062.456 4.115-.073 5.94-1.885a2.556 2.556 0 0 0 .001-3.861l-1.21-1.21a2.689 2.689 0 0 0-3.802 0l-.617.618a.806.806 0 0 1-1.14 0l-1.854-1.855a.807.807 0 0 1 0-1.14l.618-.62a2.692 2.692 0 0 0 0-3.803l-1.21-1.211A2.555 2.555 0 0 0 7.978 4Z"
-                  /></svg
-              ></a>
+                  {{ store.name }}
+                </span>
+                <Icon
+                  icon="mdi:open-in-new"
+                  class="w-4 h-4 text-[#2B2024]/40 ml-auto group-hover:text-[#FD0054]"
+                />
+              </a>
             </div>
           </div>
 
+          <!-- Social Media -->
           <div>
-            <h2
-              class="text-sm font-semibold text-gray-900 uppercase dark:text-white"
-            >
-              Social Media
-            </h2>
-            <hr class="w-full h-1 bg-gray-100 border-0 dark:bg-gray-700 my-2" />
-            <div class="flex space-x-4">
-              <a href="#" aria-label="Instagram"
-                ><svg
-                  class="w-6 h-6 text-gray-800 dark:text-white hover:text-red-900"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    fill="currentColor"
-                    fill-rule="evenodd"
-                    d="M3 8a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8Zm5-3a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V8a3 3 0 0 0-3-3H8Zm7.597 2.214a1 1 0 0 1 1-1h.01a1 1 0 1 1 0 2h-.01a1 1 0 0 1-1-1ZM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm-5 3a5 5 0 1 1 10 0 5 5 0 0 1-10 0Z"
-                    clip-rule="evenodd"
-                  /></svg
-              ></a>
-              <a href="#" aria-label="Facebook"
-                ><svg
-                  class="w-6 h-6 text-gray-800 dark:text-white hover:text-red-900"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M13.135 6H15V3h-1.865a4.147 4.147 0 0 0-4.142 4.142V9H7v3h2v9.938h3V12h2.021l.592-3H12V6.591A.6.6 0 0 1 12.592 6h.543Z"
-                    clip-rule="evenodd"
-                  /></svg
-              ></a>
-              <a href="#" aria-label="Twitter"
-                ><svg
-                  class="w-6 h-6 text-gray-800 dark:text-white hover:text-red-900"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M22 5.892a8.178 8.178 0 0 1-2.355.635 4.074 4.074 0 0 0 1.8-2.235 8.343 8.343 0 0 1-2.605.981A4.13 4.13 0 0 0 15.85 4a4.068 4.068 0 0 0-4.1 4.038c0 .31.035.618.105.919A11.705 11.705 0 0 1 3.4 4.734a4.006 4.006 0 0 0 1.268 5.392 4.165 4.165 0 0 1-1.859-.5v.05A4.057 4.057 0 0 0 6.1 13.635a4.192 4.192 0 0 1-1.856.07 4.108 4.108 0 0 0 3.831 2.807A8.36 8.36 0 0 1 2 18.184 11.732 11.732 0 0 0 8.291 20 11.502 11.502 0 0 0 19.964 8.5c0-.177 0-.349-.012-.523A8.143 8.143 0 0 0 22 5.892Z"
-                    clip-rule="evenodd"
-                  /></svg
-              ></a>
+            <h3 class="text-lg font-semibold text-[#2B2024] mb-6">
+              Follow Kami
+            </h3>
+            <div class="flex space-x-3">
+              <a
+                v-for="social in socialLinks"
+                :key="social.name"
+                :href="social.href"
+                :aria-label="social.name"
+                class="p-3 bg-white border border-[#2B2024]/10 rounded-lg hover:border-[#FD0054] hover:shadow-sm transition-all duration-200 group"
+              >
+                <Icon
+                  :icon="social.icon"
+                  class="w-5 h-5"
+                  :class="social.color"
+                />
+              </a>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <hr class="my-5 border-gray-200 sm:mx-auto dark:border-gray-700" />
+    <!-- Bottom Footer -->
+    <div class="border-t border-[#2B2024]/10 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div
+          class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0"
+        >
+          <!-- Copyright -->
+          <div class="text-center md:text-left">
+            <span class="text-sm text-[#2B2024]/80">
+              © {{ currentYear }}
+              <a
+                href="/"
+                class="hover:text-[#FD0054] font-medium transition-colors"
+              >
+                MyCloth Indonesia
+              </a>
+              . All rights reserved.
+            </span>
+          </div>
 
-      <div class="text-center">
-        <span class="text-sm text-gray-500 dark:text-gray-400">
-          © {{ currentYear }}
-          <RouterLink to="/" class="hover:underline"
-            >MyCloth Indonesia</RouterLink
-          >
-          | Official Website
-        </span>
+          <!-- Additional Links -->
+          <div class="flex space-x-6 text-sm">
+            <a
+              href="#privacy-policy"
+              class="text-[#2B2024]/80 hover:text-[#FD0054] transition-colors flex items-center space-x-1"
+            >
+              <Icon icon="mdi:shield-account" class="w-4 h-4" />
+              <span>Privacy Policy</span>
+            </a>
+            <a
+              href="#terms"
+              class="text-[#2B2024]/80 hover:text-[#FD0054] transition-colors flex items-center space-x-1"
+            >
+              <Icon icon="mdi:file-document" class="w-4 h-4" />
+              <span>Terms of Service</span>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </footer>

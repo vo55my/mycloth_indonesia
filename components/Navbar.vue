@@ -1,197 +1,242 @@
-<script>
-export default {
-  data() {
-    return {
-      storeAccordionOpen: false,
-    };
-  },
-  methods: {
-    handleSmoothScroll(event, targetId) {
-      event.preventDefault();
-      const targetElement = document.querySelector(targetId);
-      if (targetElement) {
-        targetElement.scrollIntoView({ behavior: "smooth" });
-      }
-    },
-  },
+<script setup>
+// Using Composition API for better reactivity
+import { ref, onMounted, onUnmounted } from "vue";
+import { Icon } from "@iconify/vue";
+
+const isMenuOpen = ref(false);
+const storeAccordionOpen = ref(false);
+const activeDropdown = ref(null);
+
+const handleSmoothScroll = (event, targetId) => {
+  event.preventDefault();
+  const targetElement = document.querySelector(targetId);
+  if (targetElement) {
+    targetElement.scrollIntoView({ behavior: "smooth" });
+    isMenuOpen.value = false; // Close mobile menu after click
+  }
 };
+
+const toggleDropdown = (dropdown) => {
+  if (activeDropdown.value === dropdown) {
+    activeDropdown.value = null;
+  } else {
+    activeDropdown.value = dropdown;
+  }
+};
+
+// Close mobile sidebar when clicking outside
+const closeSidebar = () => {
+  isMenuOpen.value = false;
+  storeAccordionOpen.value = false;
+  activeDropdown.value = null;
+};
+
+// Close dropdown when clicking outside
+const handleClickOutside = (event) => {
+  // Check if click is outside dropdown
+  if (activeDropdown.value && !event.target.closest(".dropdown-container")) {
+    activeDropdown.value = null;
+  }
+};
+
+const storeLinks = [
+  {
+    name: "Shopee",
+    href: "https://shopee.co.id/",
+    icon: "arcticons:shopee",
+  },
+  {
+    name: "Tokopedia",
+    href: "https://www.tokopedia.com/",
+    icon: "arcticons:tokopedia",
+  },
+  {
+    name: "Lazada",
+    href: "https://www.lazada.co.id/",
+    icon: "arcticons:lazada",
+  },
+];
+
+const navLinks = [
+  { name: "Home", href: "/", icon: "mdi:home" },
+  { name: "Edition", href: "#edition", icon: "mdi:star" },
+  { name: "Catalog", href: "#catalog", icon: "mdi:view-grid" },
+];
+
+// Add event listener for click outside
+onMounted(() => {
+  document.addEventListener("click", handleClickOutside);
+});
+
+// Remove event listener when component is destroyed
+onUnmounted(() => {
+  document.removeEventListener("click", handleClickOutside);
+});
 </script>
 
 <template>
   <nav
-    class="fixed top-0 left-0 right-0 bg-white border-gray-200 dark:bg-gray-900 z-50"
+    class="fixed top-0 left-0 right-0 bg-[#FBF9FA]/95 backdrop-blur-lg border-b border-[#2B2024]/10 shadow-sm z-50 transition-all duration-300"
   >
-    <div class="flex flex-wrap items-center justify-between mx-auto p-4">
-      <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
-        <img src="/images/Slide/Logo.png" class="h-12" alt="MyCloth Logo" />
-      </a>
-      <button
-        data-collapse-toggle="navbar-default"
-        type="button"
-        class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-        aria-controls="navbar-default"
-        aria-expanded="false"
-      >
-        <span class="sr-only">Open main menu</span>
-        <svg
-          class="w-5 h-5"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 17 14"
-        >
-          <path
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M1 1h15M1 7h15M1 13h15"
-          />
-        </svg>
-      </button>
-      <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-        <ul
-          class="font-medium flex flex-col p-4 md:p-0 mt-4 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:bg-white dark:bg-gray-900"
-        >
-          <li>
-            <a
-              href="/"
-              class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-red-900 md:p-0 dark:text-white md:dark:hover:text-red-900 dark:hover:bg-gray-700 dark:hover:text-red-900 md:dark:hover:bg-transparent"
-              aria-current="page"
-              >Home</a
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo -->
+        <div class="flex items-center">
+          <a href="/" class="flex items-center space-x-3 group">
+            <img
+              src="/images/Slide/Logo.png"
+              class="h-10 transition-transform group-hover:scale-105"
+              alt="MyCloth Logo"
+            />
+          </a>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <div class="hidden md:flex items-center space-x-1">
+          <a
+            href="/"
+            class="px-4 py-2 text-[#2B2024] hover:text-[#FD0054] font-medium rounded-lg transition-colors duration-200 hover:bg-[#2B2024]/5"
+          >
+            Home
+          </a>
+
+          <!-- Store Dropdown -->
+          <div class="relative dropdown-container">
+            <button
+              @click="toggleDropdown('store')"
+              class="flex items-center space-x-1 px-4 py-2 text-[#2B2024] hover:text-[#FD0054] font-medium rounded-lg transition-colors duration-200 hover:bg-[#2B2024]/5"
             >
-          </li>
-          <li>
-            <div class="hidden md:block">
-              <button
-                id="dropdownNavbarLink"
-                data-dropdown-toggle="dropdownNavbar"
-                class="flex items-center justify-between w-full py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-red-900 md:p-0 md:w-auto dark:text-white md:dark:hover:text-red-900 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+              <span>Store</span>
+              <Icon
+                icon="mdi:chevron-down"
+                class="w-4 h-4 transition-transform duration-200"
+                :class="{ 'rotate-180': activeDropdown === 'store' }"
+              />
+            </button>
+
+            <div
+              v-show="activeDropdown === 'store'"
+              class="absolute top-full left-0 mt-2 w-48 bg-[#FBF9FA] rounded-xl shadow-lg border border-[#2B2024]/10 py-2 z-50 animate-fade-in"
+            >
+              <a
+                v-for="store in storeLinks"
+                :key="store.name"
+                :href="store.href"
+                target="_blank"
+                class="flex items-center px-4 py-3 text-[#2B2024] hover:bg-[#FD0054] hover:text-[#FBF9FA] transition-colors duration-200 group"
+                @click="activeDropdown = null"
               >
-                Store
-                <svg
-                  class="w-2.5 h-2.5 ms-2.5"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 10 6"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m1 1 4 4 4-4"
-                  />
-                </svg>
-              </button>
-              <div
-                id="dropdownNavbar"
-                class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-25 dark:bg-gray-700 dark:divide-gray-600"
-              >
-                <ul
-                  class="py-2 text-sm text-gray-700 dark:text-gray-400"
-                  aria-labelledby="dropdownLargeButton"
-                >
-                  <li>
-                    <a
-                      href="https://shopee.co.id/"
-                      class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600"
-                      >Shopee</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      href="https://www.tokopedia.com/"
-                      class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600"
-                      >Tokopedia</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      href="https://www.lazada.co.id/"
-                      class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600"
-                      >Lazada</a
-                    >
-                  </li>
-                </ul>
-              </div>
+                <Icon
+                  :icon="store.icon"
+                  class="w-5 h-5 mr-3 text-[#FD0054] group-hover:text-[#FBF9FA]"
+                />
+                <span>{{ store.name }}</span>
+                <Icon
+                  icon="mdi:open-in-new"
+                  class="w-4 h-4 ml-auto opacity-60"
+                />
+              </a>
             </div>
-            <div class="md:hidden">
-              <button
-                @click="storeAccordionOpen = !storeAccordionOpen"
-                class="flex items-center justify-between w-full py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-              >
-                Store
-                <svg
-                  class="w-2.5 h-2.5 ms-2.5 transition-transform"
-                  :class="{ 'rotate-180': storeAccordionOpen }"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 10 6"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m1 1 4 4 4-4"
-                  />
-                </svg>
-              </button>
-              <div v-show="storeAccordionOpen" class="pl-4">
-                <ul class="py-2 text-sm text-gray-700 dark:text-gray-400">
-                  <li>
-                    <a
-                      href="https://shopee.co.id/"
-                      class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600"
-                      >Shopee</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      href="https://www.tokopedia.com/"
-                      class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600"
-                      >Tokopedia</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      href="https://www.lazada.co.id/"
-                      class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600"
-                      >Lazada</a
-                    >
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </li>
-          <li>
-            <a
-              href="#edition"
-              @click.prevent="handleSmoothScroll($event, '#edition')"
-              class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-red-900 md:p-0 dark:text-white md:dark:hover:text-red-900 dark:hover:bg-gray-700 dark:hover:text-red-900 md:dark:hover:bg-transparent"
-              >Edition</a
-            >
-          </li>
-          <li>
-            <a
-              href="#catalog"
-              @click.prevent="handleSmoothScroll($event, '#catalog')"
-              class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-red-900 md:p-0 dark:text-white md:dark:hover:text-red-900 dark:hover:bg-gray-700 dark:hover:text-red-900 md:dark:hover:bg-transparent"
-              >Catalog</a
-            >
-          </li>
-          <li>
-            <a
-              href="/shop"
-              class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-red-900 md:p-0 dark:text-white md:dark:hover:text-red-900 dark:hover:bg-gray-700 dark:hover:text-red-900 md:dark:hover:bg-transparent"
-              >Shop</a
-            >
-          </li>
-        </ul>
+          </div>
+
+          <a
+            href="#edition"
+            @click.prevent="handleSmoothScroll($event, '#edition')"
+            class="px-4 py-2 text-[#2B2024] hover:text-[#FD0054] font-medium rounded-lg transition-colors duration-200 hover:bg-[#2B2024]/5"
+          >
+            Edition
+          </a>
+          <a
+            href="#catalog"
+            @click.prevent="handleSmoothScroll($event, '#catalog')"
+            class="px-4 py-2 text-[#2B2024] hover:text-[#FD0054] font-medium rounded-lg transition-colors duration-200 hover:bg-[#2B2024]/5"
+          >
+            Catalog
+          </a>
+        </div>
+
+        <!-- CTA Button -->
+        <div class="hidden md:flex items-center space-x-4">
+          <a
+            href="/shop"
+            class="bg-[#FD0054] text-[#FBF9FA] px-6 py-2 rounded-lg font-medium hover:bg-[#A80038] transition-colors duration-200 shadow-sm hover:shadow-md"
+          >
+            Shop Now
+          </a>
+        </div>
+
+        <!-- Mobile menu button -->
+        <button
+          @click="isMenuOpen = !isMenuOpen"
+          class="md:hidden p-2 rounded-lg text-[#2B2024] hover:bg-[#2B2024]/5 transition-colors duration-200"
+          aria-label="Toggle menu"
+        >
+          <Icon :icon="isMenuOpen ? 'mdi:close' : 'mdi:menu'" class="w-6 h-6" />
+        </button>
       </div>
     </div>
+
+    <!-- Mobile Sidebar Overlay -->
+    <MobileSidebar
+      :is-open="isMenuOpen"
+      :nav-links="navLinks"
+      :store-links="storeLinks"
+      @close="closeSidebar"
+    />
   </nav>
 </template>
+
+<style scoped>
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom scrollbar for sidebar */
+.sidebar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #fd0054 #fbf9fa;
+}
+
+.sidebar-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-track {
+  background: #fbf9fa;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background: #fd0054;
+  border-radius: 2px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background: #a80038;
+}
+</style>
