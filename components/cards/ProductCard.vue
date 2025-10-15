@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
-import DetailButton from "./DetailButton.vue";
+import DetailButton from "./button/DetailButton.vue";
 
 const isLoading = ref(true);
 const isHovered = ref(false);

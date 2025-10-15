@@ -1,14 +1,13 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
-import { supabase } from "../utils/supabase";
+import { supabase } from "@/utils/supabase";
 import { Icon } from "@iconify/vue";
-
-import Navbar from "../components/Navbar.vue";
-import Footer from "../components/Footer.vue";
-import Breadcrumb from "../components/Breadcrumb.vue";
-import EditionDropdown from "../components/EditionDropdown.vue";
-import SearchBar from "../components/SearchBar.vue";
-import ProductCard from "../components/ProductCard.vue";
+import Navbar from "@/components/common/Navbar.vue";
+import Footer from "@/components/common/Footer.vue";
+import Breadcrumb from "@/components/common/Breadcrumb.vue";
+import EditionDropdown from "~/components/shop/EditionDropdown.vue";
+import SearchBar from "~/components/shop/SearchBar.vue";
+import ProductCard from "@/components/ProductCard.vue";
 
 const breadcrumbItems = [
   { name: "Home", link: "/" },
@@ -182,7 +181,7 @@ const filteredKatalogs = computed(() =>
               class="inline-flex items-center space-x-2 text-[#FD0054] hover:text-[#A80038] font-semibold transition-colors duration-200"
             >
               <span>Back to Top</span>
-                <Icon icon="mdi:arrow-up" class="w-5 h-5" />
+              <Icon icon="mdi:arrow-up" class="w-5 h-5" />
             </a>
           </div>
         </div>

@@ -1,17 +1,17 @@
 <script setup>
 import { useRoute } from "vue-router";
 import { ref, computed } from "vue";
-import { Icon } from "@iconify/vue";
 import { supabase } from "~/utils/supabase";
-import Navbar from "~/components/Navbar.vue";
-import Footer from "~/components/Footer.vue";
-import Breadcrumb from "~/components/Breadcrumb.vue";
+import { Icon } from "@iconify/vue";
+import Navbar from "~/components/common/Navbar.vue";
+import Footer from "~/components/common/Footer.vue";
+import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import ProductCard from "~/components/ProductCard.vue";
-import LoadingSpinner from "~/components/LoadingSpinner.vue";
-import ErrorDisplay from "~/components/ErrorDisplay.vue";
-import ProductImageGallery from "~/components/ProductImageGallery.vue";
+import LoadingSpinner from "~/components/common/LoadingSpinner.vue";
+import ErrorDisplay from "~/components/common/ErrorDisplay.vue";
+import ProductImageGallery from "~/components/product/ProductImageGallery.vue";
 import ProductInfo from "~/components/ProductInfo.vue";
-import ButtonCTA from "~/components/ButtonCTA.vue";
+import ButtonCTA from "~/components/button/ButtonCTA.vue";
 
 const route = useRoute();
 

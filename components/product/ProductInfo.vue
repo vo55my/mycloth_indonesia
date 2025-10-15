@@ -89,7 +89,7 @@
 
 <script setup>
 import { Icon } from "@iconify/vue";
-import ShopButton from "./ShopButton.vue";
+import ShopButton from "./button/ShopButton.vue";
 
 const props = defineProps({
   product: {

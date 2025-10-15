@@ -1,16 +1,16 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
+import { supabase } from "@/utils/supabase";
 import { Icon } from "@iconify/vue";
-import { supabase } from "../utils/supabase";
-import Navbar from "../components/Navbar.vue";
-import Carousel from "../components/Carousel.vue";
-import Footer from "../components/Footer.vue";
-import ProductCard from "../components/ProductCard.vue";
-import SectionHeader from "../components/SectionHeader.vue";
-import LoadingSkeleton from "../components/LoadingSkeleton.vue";
-import ErrorState from "../components/ErrorState.vue";
-import EmptyState from "../components/EmptyState.vue";
-import ButtonCTA from "../components/ButtonCTA.vue";
+import Navbar from "@/components/common/Navbar.vue";
+import Carousel from "~/components/home/Carousel.vue";
+import Footer from "@/components/common/Footer.vue";
+import ProductCard from "@/components/ProductCard.vue";
+import SectionHeader from "~/components/home/SectionHeader.vue";
+import LoadingSkeleton from "@/components/common/LoadingSkeleton.vue";
+import ErrorState from "@/components/common/ErrorState.vue";
+import EmptyState from "@/components/common/EmptyState.vue";
+import ButtonCTA from "@/components/button/ButtonCTA.vue";
 
 // Store Section Data
 const storeLoading = ref(true);
