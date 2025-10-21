@@ -1,5 +1,4 @@
 <script setup>
-// Using Composition API for better reactivity
 import { ref, onMounted, onUnmounted } from "vue";
 import { Icon } from "@iconify/vue";
 

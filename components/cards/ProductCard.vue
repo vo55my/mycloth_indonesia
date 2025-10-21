@@ -27,10 +27,6 @@ const handleImageLoad = () => {
   isLoading.value = false;
 };
 
-const handleImageError = (e) => {
-  e.target.src = "/fallback.jpg";
-  isLoading.value = false;
-};
 </script>
 
 <template>
@@ -53,7 +49,7 @@ const handleImageError = (e) => {
       <img
         v-show="!isLoading"
         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-        :src="katalog.image_2 || '/fallback.jpg'"
+        :src="katalog.image_2"
         :alt="katalog.name || 'Produk MyCloth'"
         loading="lazy"
         @load="handleImageLoad"
