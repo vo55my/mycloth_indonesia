@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
-import DetailButton from "./button/DetailButton.vue";
+import DetailButton from "@/components/button/DetailButton.vue";
 
 const isLoading = ref(true);
 const isHovered = ref(false);
@@ -185,6 +185,7 @@ const handleImageError = (e) => {
 <style scoped>
 .line-clamp-1 {
   display: -webkit-box;
+  line-clamp: 1;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -192,6 +193,7 @@ const handleImageError = (e) => {
 
 .line-clamp-2 {
   display: -webkit-box;
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;

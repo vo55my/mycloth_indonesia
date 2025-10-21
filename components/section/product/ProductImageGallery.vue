@@ -1,3 +1,38 @@
+<script setup>
+import { ref, watch } from "vue";
+import { Icon } from "@iconify/vue";
+
+const props = defineProps({
+  images: {
+    type: Array,
+    default: () => [],
+  },
+  productName: {
+    type: String,
+    default: "Product",
+  },
+});
+
+const activeImage = ref(props.images[0] || "/fallback.jpg");
+
+watch(
+  () => props.images,
+  (newImages) => {
+    if (newImages.length) {
+      activeImage.value = newImages[0];
+    }
+  }
+);
+
+const handleImageError = (event) => {
+  event.target.src = "/fallback.jpg";
+};
+
+const handleThumbnailError = (event) => {
+  event.target.src = "/fallback-thumb.jpg";
+};
+</script>
+
 <template>
   <div class="flex flex-col items-center lg:items-start">
     <!-- Main Image -->
@@ -46,38 +81,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { ref, watch } from "vue";
-import { Icon } from "@iconify/vue";
-
-const props = defineProps({
-  images: {
-    type: Array,
-    default: () => [],
-  },
-  productName: {
-    type: String,
-    default: "Product",
-  },
-});
-
-const activeImage = ref(props.images[0] || "/fallback.jpg");
-
-watch(
-  () => props.images,
-  (newImages) => {
-    if (newImages.length) {
-      activeImage.value = newImages[0];
-    }
-  }
-);
-
-const handleImageError = (event) => {
-  event.target.src = "/fallback.jpg";
-};
-
-const handleThumbnailError = (event) => {
-  event.target.src = "/fallback-thumb.jpg";
-};
-</script>

@@ -1,3 +1,25 @@
+<script setup>
+import { Icon } from "@iconify/vue";
+import ShopButton from "@/components/button/ShopButton.vue";
+
+const props = defineProps({
+  product: {
+    type: Object,
+    required: true,
+  },
+});
+
+const formatCurrency = (value) => {
+  const number = Number(value);
+  if (isNaN(number)) return "";
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+  }).format(number);
+};
+</script>
+
 <template>
   <div class="flex flex-col justify-center space-y-6">
     <!-- Product Name -->
@@ -86,25 +108,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { Icon } from "@iconify/vue";
-import ShopButton from "./button/ShopButton.vue";
-
-const props = defineProps({
-  product: {
-    type: Object,
-    required: true,
-  },
-});
-
-const formatCurrency = (value) => {
-  const number = Number(value);
-  if (isNaN(number)) return "";
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 0,
-  }).format(number);
-};
-</script>
