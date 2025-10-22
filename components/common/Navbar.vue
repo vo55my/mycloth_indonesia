@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
 import { Icon } from "@iconify/vue";
+import MobileSidebar from "@/components/common/MobileSidebar.vue";
 
 const isMenuOpen = ref(false);
 const storeAccordionOpen = ref(false);

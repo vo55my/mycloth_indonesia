@@ -27,7 +27,7 @@ const closeSidebar = () => {
   <!-- Mobile Sidebar Overlay -->
   <div
     v-show="isOpen"
-    class="md:hidden fixed inset-0 z-40 transition-opacity duration-300"
+    class="md:hidden fixed inset-0 z-50 transition-opacity duration-300"
     @click="closeSidebar"
   ></div>
 
