@@ -26,11 +26,7 @@ const formatCurrency = (value) => {
 
 // Prioritaskan gambar utama, fallback ke image_2 jika ada
 const getImageUrl = () => {
-  return (
-    props.katalog.image ||
-    props.katalog.image_2 ||
-    "/images/placeholder-product.jpg"
-  );
+  return props.katalog.image_2 || props.katalog.image_1;
 };
 
 const handleImageLoad = () => {
