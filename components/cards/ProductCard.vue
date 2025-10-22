@@ -27,6 +27,9 @@ const handleImageLoad = () => {
   isLoading.value = false;
 };
 
+const handleImageError = () => {
+  isLoading.value = false;
+};
 </script>
 
 <template>

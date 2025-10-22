@@ -1,3 +1,12 @@
+<script setup>
+import { Icon } from "@iconify/vue";
+
+defineProps({
+  title: String,
+  message: String,
+});
+</script>
+
 <template>
   <div
     class="bg-white rounded-2xl p-8 border border-[#2B2024]/10 max-w-md mx-auto"
@@ -36,12 +45,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { Icon } from "@iconify/vue";
-
-defineProps({
-  title: String,
-  message: String,
-});
-</script>

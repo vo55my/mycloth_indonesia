@@ -1,6 +1,7 @@
 <script setup>
 import Navbar from "@/components/common/Navbar.vue";
 import Footer from "@/components/common/Footer.vue";
+import ScrollToTopButton from "@/components/button/ScrollToTopButton.vue";
 import Carousel from "@/components/section/home/Carousel.vue";
 import StoreSection from "@/components/section/home/StoreSection.vue";
 import EditionSection from "@/components/section/home/EditionSection.vue";
@@ -15,6 +16,7 @@ import CatalogSection from "@/components/section/home/CatalogSection.vue";
       <StoreSection />
       <EditionSection />
       <CatalogSection />
+      <ScrollToTopButton />
     </main>
     <Footer />
   </div>

@@ -1,3 +1,10 @@
+<script setup>
+defineProps({
+  title: String,
+  message: String,
+});
+</script>
+
 <template>
   <div class="inline-flex flex-col items-center space-y-4">
     <div
@@ -13,10 +20,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-defineProps({
-  title: String,
-  message: String,
-});
-</script>

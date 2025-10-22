@@ -6,6 +6,7 @@ import Navbar from "@/components/common/Navbar.vue";
 import Footer from "@/components/common/Footer.vue";
 import LoadingSpinner from "@/components/common/LoadingSpinner.vue";
 import ErrorDisplay from "@/components/common/ErrorDisplay.vue";
+import ScrollToTopButton from "@/components/button/ScrollToTopButton.vue";
 import ProductHeaderSection from "@/components/section/product/ProductHeaderSection.vue";
 import ProductDetailSection from "@/components/section/product/ProductDetailSection.vue";
 import RelatedProductsSection from "@/components/section/product/RelatedProductsSection.vue";
@@ -121,6 +122,9 @@ onMounted(fetchRelatedProducts);
           :relatedLoading="relatedLoading"
         />
       </section>
+
+      <!-- Scroll to Top Button -->
+      <ScrollToTopButton />
     </main>
 
     <Footer />

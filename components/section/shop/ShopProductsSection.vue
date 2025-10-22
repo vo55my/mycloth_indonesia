@@ -1,6 +1,7 @@
 <script setup>
 import { Icon } from "@iconify/vue";
 import ProductCard from "@/components/cards/ProductCard.vue";
+import ScrollToTopButton from "@/components/button/ScrollToTopButton.vue";
 
 defineProps({
   isLoading: {
@@ -90,19 +91,8 @@ defineEmits(["clear-filters"]);
         />
       </div>
 
-      <!-- Load More Section (if needed) -->
-      <div v-if="filteredKatalogs.length > 0" class="text-center mt-12">
-        <p class="text-[#2B2024]/60 mb-4">
-          Showing all {{ filteredKatalogs.length }} products
-        </p>
-        <a
-          href="#top"
-          class="inline-flex items-center space-x-2 text-[#FD0054] hover:text-[#A80038] font-semibold transition-colors duration-200"
-        >
-          <span>Back to Top</span>
-          <Icon icon="mdi:arrow-up" class="w-5 h-5" />
-        </a>
-      </div>
+      <!-- Scroll to Top Button -->
+      <ScrollToTopButton />
     </div>
   </section>
 </template>
@@ -122,10 +112,5 @@ defineEmits(["clear-filters"]);
 
 .product-grid {
   animation: fadeIn 0.6s ease-out forwards;
-}
-
-/* Smooth scrolling for back to top */
-html {
-  scroll-behavior: smooth;
 }
 </style>
