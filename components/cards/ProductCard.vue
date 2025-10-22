@@ -5,6 +5,7 @@ import DetailButton from "@/components/button/DetailButton.vue";
 
 const isLoading = ref(true);
 const isHovered = ref(false);
+const imageError = ref(false);
 
 const props = defineProps({
   katalog: {
@@ -23,18 +24,38 @@ const formatCurrency = (value) => {
   }).format(number);
 };
 
+// Prioritaskan gambar utama, fallback ke image_2 jika ada
+const getImageUrl = () => {
+  return (
+    props.katalog.image ||
+    props.katalog.image_2 ||
+    "/images/placeholder-product.jpg"
+  );
+};
+
 const handleImageLoad = () => {
   isLoading.value = false;
+  imageError.value = false;
 };
 
 const handleImageError = () => {
   isLoading.value = false;
+  imageError.value = true;
 };
+
+// Reset state saat props berubah
+watch(
+  () => props.katalog,
+  () => {
+    isLoading.value = true;
+    imageError.value = false;
+  }
+);
 </script>
 
 <template>
   <div
-    class="group bg-white rounded-2xl overflow-hidden border-2 border-transparent hover:border-[#FD0054] transition-all duration-500 hover:shadow-xl"
+    class="group bg-white rounded-2xl overflow-hidden border-2 border-transparent hover:border-[#FD0054] transition-all duration-500 hover:shadow-xl product-card"
     @mouseenter="isHovered = true"
     @mouseleave="isHovered = false"
   >
@@ -43,16 +64,25 @@ const handleImageError = () => {
       <!-- Loading State -->
       <div
         v-if="isLoading"
-        class="absolute inset-0 flex items-center justify-center bg-gray-100 animate-pulse"
+        class="absolute inset-0 flex items-center justify-center bg-gray-100 animate-pulse z-10"
       >
         <Icon icon="mdi:tshirt-crew" class="w-12 h-12 text-gray-300" />
       </div>
 
+      <!-- Error State -->
+      <div
+        v-if="imageError"
+        class="absolute inset-0 flex flex-col items-center justify-center bg-gray-100 z-10"
+      >
+        <Icon icon="mdi:image-off" class="w-16 h-16 text-gray-400 mb-2" />
+        <span class="text-gray-500 text-sm">Gagal memuat gambar</span>
+      </div>
+
       <!-- Product Image -->
       <img
-        v-show="!isLoading"
+        v-show="!isLoading && !imageError"
         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-        :src="katalog.image_2"
+        :src="getImageUrl()"
         :alt="katalog.name || 'Produk MyCloth'"
         loading="lazy"
         @load="handleImageLoad"
@@ -62,28 +92,11 @@ const handleImageError = () => {
       <!-- Overlay on Hover -->
       <div
         class="absolute inset-0 bg-gradient-to-t from-[#2B2024]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        :class="{ 'z-0': !isLoading && !imageError }"
       ></div>
 
-      <!-- Quick Actions -->
-      <!-- <div
-        class="absolute top-3 right-3 flex flex-col space-y-2 transform translate-x-12 group-hover:translate-x-0 transition-transform duration-300"
-      >
-        <button
-          class="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-[#FD0054] hover:text-white transition-colors duration-200"
-          aria-label="Add to wishlist"
-        >
-          <Icon icon="mdi:heart-outline" class="w-4 h-4" />
-        </button>
-        <button
-          class="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-[#FD0054] hover:text-white transition-colors duration-200"
-          aria-label="Quick view"
-        >
-          <Icon icon="mdi:eye-outline" class="w-4 h-4" />
-        </button>
-      </div> -->
-
       <!-- Product Badges -->
-      <div class="absolute top-3 left-3 flex flex-col space-y-2">
+      <div class="absolute top-3 left-3 flex flex-col space-y-2 z-10">
         <span
           v-if="katalog.is_new"
           class="bg-[#FD0054] text-[#FBF9FA] px-2 py-1 rounded-full text-xs font-semibold"
@@ -106,7 +119,7 @@ const handleImageError = () => {
 
       <!-- Hover View Button -->
       <div
-        class="absolute bottom-3 left-1/2 transform -translate-x-1/2 translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300"
+        class="absolute bottom-3 left-1/2 transform -translate-x-1/2 translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 z-10"
       >
         <DetailButton
           :productUrl="`/product/${katalog.id}`"
@@ -158,26 +171,8 @@ const handleImageError = () => {
             {{ formatCurrency(katalog.original_price) }}
           </span>
         </div>
-
-        <!-- Add to Cart Button -->
-        <!-- <button
-          class="w-10 h-10 bg-[#2B2024] text-[#FBF9FA] rounded-lg flex items-center justify-center hover:bg-[#FD0054] transition-colors duration-200 shadow-sm hover:shadow-md"
-          aria-label="Add to cart"
-        >
-          <Icon icon="mdi:shopping" class="w-5 h-5" />
-        </button> -->
       </div>
     </div>
-
-    <!-- Quick Add to Cart Bar (Mobile) -->
-    <!-- <div class="md:hidden border-t border-[#2B2024]/10 p-4">
-      <button
-        class="w-full bg-[#FD0054] text-[#FBF9FA] py-2 rounded-lg font-semibold hover:bg-[#A80038] transition-colors duration-200 flex items-center justify-center space-x-2"
-      >
-        <Icon icon="mdi:shopping" class="w-4 h-4" />
-        <span>Add to Cart</span>
-      </button>
-    </div> -->
   </div>
 </template>
 
