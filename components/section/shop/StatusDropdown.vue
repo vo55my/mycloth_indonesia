@@ -3,31 +3,31 @@ import { Icon } from "@iconify/vue";
 import { ref, inject } from "vue";
 
 const props = defineProps({
-  editions: {
+  statuses: {
     type: Array,
     required: true,
   },
-  selectedEditions: {
+  selectedStatuses: {
     type: Array,
     required: true,
   },
 });
 
-const emit = defineEmits(["update:selectedEditions"]);
+const emit = defineEmits(["update:selectedStatuses"]);
 
 // Inject dropdown manager
 const dropdownManager = inject("dropdownManager");
-const dropdownId = "edition-dropdown";
+const dropdownId = "status-dropdown";
 
 const isDropdownOpen = ref(false);
 
-function toggleEdition(edition) {
-  const isSelected = props.selectedEditions.includes(edition);
-  const newSelectedEditions = isSelected
-    ? props.selectedEditions.filter((e) => e !== edition)
-    : [...props.selectedEditions, edition];
+function toggleStatus(status) {
+  const isSelected = props.selectedStatuses.includes(status);
+  const newSelectedStatuses = isSelected
+    ? props.selectedStatuses.filter((s) => s !== status)
+    : [...props.selectedStatuses, status];
 
-  emit("update:selectedEditions", newSelectedEditions);
+  emit("update:selectedStatuses", newSelectedStatuses);
 }
 
 function toggleDropdown() {
@@ -88,9 +88,9 @@ onUnmounted(() => {
       class="inline-flex items-center px-4 py-3 text-sm font-semibold bg-[#FD0054] text-[#FBF9FA] rounded-lg hover:bg-[#A80038] focus:outline-none focus:ring-2 focus:ring-[#FD0054] focus:ring-opacity-50 transition-all duration-200 shadow-sm hover:shadow-md"
       type="button"
     >
-      Edition
+      Filter
       <span class="ml-2">{{
-        selectedEditions.length > 0 ? `(${selectedEditions.length})` : ""
+        selectedStatuses.length > 0 ? `(${selectedStatuses.length})` : ""
       }}</span>
       <Icon
         icon="mdi:chevron-down"
@@ -107,38 +107,38 @@ onUnmounted(() => {
       <!-- Selected Count -->
       <div class="px-4 py-2 border-b border-[#2B2024]/10">
         <p class="text-sm text-[#2B2024]/70">
-          {{ selectedEditions.length }} selected
+          {{ selectedStatuses.length }} selected
         </p>
       </div>
 
-      <!-- Edition List -->
+      <!-- Status List -->
       <ul class="py-2">
-        <li v-for="(edition, index) in editions" :key="edition + '-' + index">
+        <li v-for="(status, index) in statuses" :key="status + '-' + index">
           <div
             class="flex items-center px-4 py-2 hover:bg-[#2B2024]/5 transition-colors duration-150 cursor-pointer group"
-            @click="toggleEdition(edition)"
+            @click="toggleStatus(status)"
           >
             <!-- Custom Checkbox -->
             <div
               class="w-4 h-4 border-2 rounded-sm flex items-center justify-center mr-3 transition-all duration-200"
               :class="[
-                selectedEditions.includes(edition)
+                selectedStatuses.includes(status)
                   ? 'bg-[#FD0054] border-[#FD0054]'
                   : 'border-[#2B2024]/30 group-hover:border-[#FD0054]',
               ]"
             >
               <Icon
-                v-if="selectedEditions.includes(edition)"
+                v-if="selectedStatuses.includes(status)"
                 icon="mdi:check"
                 class="w-3 h-3 text-white"
               />
             </div>
 
-            <!-- Edition Label -->
+            <!-- Status Label -->
             <label
               class="flex-1 text-sm font-medium text-[#2B2024] cursor-pointer select-none group-hover:text-[#FD0054] transition-colors"
             >
-              {{ edition }}
+              {{ status }}
             </label>
           </div>
         </li>
@@ -146,11 +146,11 @@ onUnmounted(() => {
 
       <!-- Clear All Button -->
       <div
-        v-if="selectedEditions.length > 0"
+        v-if="selectedStatuses.length > 0"
         class="px-4 py-2 border-t border-[#2B2024]/10"
       >
         <button
-          @click="emit('update:selectedEditions', [])"
+          @click="emit('update:selectedStatuses', [])"
           class="w-full text-sm text-[#FD0054] hover:text-[#A80038] font-medium transition-colors duration-200 text-center py-1"
         >
           Clear All

@@ -33,8 +33,8 @@ const closeSidebar = () => {
 
   <!-- Mobile Sidebar -->
   <div
-    class="md:hidden fixed top-0 right-0 h-full w-80 bg-[#FBF9FA] shadow-xl z-50 transform transition-transform duration-300 ease-in-out sidebar-scroll"
-    :class="isOpen ? 'translate-x-0' : 'translate-x-full'"
+    class="md:hidden fixed top-0 left-0 h-full w-80 bg-[#FBF9FA] shadow-xl z-50 transform transition-transform duration-300 ease-in-out sidebar-scroll"
+    :class="isOpen ? 'translate-x-0' : '-translate-x-full'"
   >
     <!-- Sidebar Header -->
     <div

@@ -14,7 +14,9 @@ const breadcrumbItems = [
 const katalogs = ref([]);
 const searchQuery = ref("");
 const selectedEditions = ref([]);
+const selectedStatuses = ref([]);
 const editions = ref([]);
+const statuses = ref(["New", "Limited", "Popular"]); // Status options
 const isLoading = ref(true);
 
 async function fetchKatalogs() {
@@ -34,6 +36,7 @@ async function fetchKatalogs() {
 const clearFilters = () => {
   searchQuery.value = "";
   selectedEditions.value = [];
+  selectedStatuses.value = [];
 };
 
 onMounted(fetchKatalogs);
@@ -48,9 +51,30 @@ const filteredKatalogs = computed(() =>
       selectedEditions.value.length === 0 ||
       (katalog?.edition && selectedEditions.value.includes(katalog.edition));
 
+    const matchesStatus =
+      selectedStatuses.value.length === 0 ||
+      selectedStatuses.value.some((status) => {
+        // Anda perlu menyesuaikan logika ini berdasarkan struktur data katalog Anda
+        // Contoh sederhana berdasarkan field yang mungkin ada di database
+        switch (status) {
+          case "New":
+            return (
+              katalog.is_new ||
+              katalog.created_at >
+                new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+            ); // Produk baru dalam 30 hari
+          case "Limited":
+            return katalog.is_limited || katalog.stock < 50; // Stok terbatas
+          case "Popular":
+            return katalog.is_popular || katalog.sales_count > 100; // Produk populer
+          default:
+            return false;
+        }
+      });
+
     const hasImage = Boolean(katalog?.image_2);
 
-    return matchesName && matchesEdition && hasImage;
+    return matchesName && matchesEdition && matchesStatus && hasImage;
   })
 );
 </script>
@@ -66,10 +90,13 @@ const filteredKatalogs = computed(() =>
         :breadcrumbItems="breadcrumbItems"
         :searchQuery="searchQuery"
         :selectedEditions="selectedEditions"
+        :selectedStatuses="selectedStatuses"
         :editions="editions"
+        :statuses="statuses"
         :filteredKatalogs="filteredKatalogs"
         @update:searchQuery="searchQuery = $event"
         @update:selectedEditions="selectedEditions = $event"
+        @update:selectedStatuses="selectedStatuses = $event"
       />
 
       <!-- Products Grid Section -->
@@ -78,6 +105,7 @@ const filteredKatalogs = computed(() =>
         :filteredKatalogs="filteredKatalogs"
         :searchQuery="searchQuery"
         :selectedEditions="selectedEditions"
+        :selectedStatuses="selectedStatuses"
         @clear-filters="clearFilters"
       />
     </main>

@@ -2,6 +2,14 @@
 import Breadcrumb from "@/components/common/Breadcrumb.vue";
 import SearchBar from "@/components/section/shop/SearchBar.vue";
 import EditionDropdown from "@/components/section/shop/EditionDropdown.vue";
+import StatusDropdown from "@/components/section/shop/StatusDropdown.vue";
+import { useDropdownManager } from "@/utils/useDropdownManager";
+
+const dropdownManager = useDropdownManager();
+
+// Provide dropdown manager to child components
+import { provide } from "vue";
+provide("dropdownManager", dropdownManager);
 
 defineProps({
   breadcrumbItems: {
@@ -16,7 +24,15 @@ defineProps({
     type: Array,
     required: true,
   },
+  selectedStatuses: {
+    type: Array,
+    required: true,
+  },
   editions: {
+    type: Array,
+    required: true,
+  },
+  statuses: {
     type: Array,
     required: true,
   },
@@ -26,7 +42,11 @@ defineProps({
   },
 });
 
-defineEmits(["update:searchQuery", "update:selectedEditions"]);
+defineEmits([
+  "update:searchQuery",
+  "update:selectedEditions",
+  "update:selectedStatuses",
+]);
 </script>
 
 <template>
@@ -63,8 +83,18 @@ defineEmits(["update:searchQuery", "update:selectedEditions"]);
             </p>
           </div>
 
-          <!-- Edition Dropdown -->
-          <div class="w-full lg:w-auto">
+          <!-- Filter Dropdowns -->
+          <div class="flex flex-wrap gap-3 justify-center lg:justify-end">
+            <!-- Status Dropdown -->
+            <StatusDropdown
+              :statuses="statuses"
+              :selectedStatuses="selectedStatuses"
+              @update:selectedStatuses="
+                $emit('update:selectedStatuses', $event)
+              "
+            />
+
+            <!-- Edition Dropdown -->
             <EditionDropdown
               :editions="editions"
               :selectedEditions="selectedEditions"
